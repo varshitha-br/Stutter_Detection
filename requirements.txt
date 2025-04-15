@@ -1,0 +1,11 @@
+django==4.2
+librosa==0.10.1
+numpy==1.26.4
+joblib==1.4.2
+tensorflow==2.16.1
+git+https://github.com/openai/whisper.git
+scipy==1.13.1
+noisereduce==3.0.0
+g2p_en==2.1.0
+matplotlib==3.8.4
+ollama==0.1.9

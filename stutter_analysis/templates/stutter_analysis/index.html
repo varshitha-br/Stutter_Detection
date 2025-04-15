@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StutterGO</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4">🗣️ StutterGO</h1>
+        <p class="mb-4">Upload an audio file to analyze stuttering patterns, view transcriptions, identify the most stuttered consonant phoneme, and generate a practice story.</p>
+        
+        <form method="post" enctype="multipart/form-data" class="mb-4">
+            {% csrf_token %}
+            <input type="file" name="audio_file" accept=".wav,.mp3" class="mb-2 p-2 border rounded">
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Analyze</button>
+        </form>
+        
+        {% if audio_url %}
+            <audio controls class="mb-4">
+                <source src="{{ audio_url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        {% endif %}
+        
+        {% if error %}
+            <p class="text-red-500">{{ error }}</p>
+        {% endif %}
+        
+        {% if full_text %}
+            <h2 class="text-2xl font-bold mt-4">Full Transcription</h2>
+            <p class="mb-4">{{ full_text }}</p>
+            
+            <h2 class="text-2xl font-bold mt-4">Transcription with Stuttered Words Highlighted</h2>
+            <p class="mb-4">{{ highlighted_transcription|safe }}</p>
+            
+            {% if plot_data %}
+                <h2 class="text-2xl font-bold mt-4">Stutter Frequency Graph</h2>
+                <img src="data:image/png;base64,{{ plot_data }}" alt="Stutter Frequency Graph" class="mb-4">
+            {% endif %}
+            
+            <h2 class="text-2xl font-bold mt-4">Stutter Rate</h2>
+            <p>Word-Based: {{ word_rate }}% of words</p>
+            <p>Time-Based: {{ time_rate }} stutters per minute</p>
+            
+            <h2 class="text-2xl font-bold mt-4">Phoneme Analysis</h2>
+            {% if phoneme %}
+                <p>Most Stuttered Phoneme: <b>/{{ phoneme|lower }}/</b></p>
+                <h2 class="text-2xl font-bold mt-4">Practice Passage</h2>
+                <p>{{ practice_passage|safe }}</p>
+            {% else %}
+                <p>No consonant phonemes identified in stuttered words.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
