@@ -18,12 +18,12 @@
             <button type="submit" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Analyze</button>
         </form>
         
-        {% if audio_url %}
+        <!-- {% if audio_url %}
             <audio controls class="mb-4">
                 <source src="{{ audio_url }}" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
-        {% endif %}
+        {% endif %} -->
         
         {% if error %}
             <p class="text-red-500">{{ error }}</p>
